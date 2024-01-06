@@ -1,5 +1,57 @@
 import "./App.css";
 
+const data = [
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Deloria+Tern&rounded=true&background=random",
+    name: "Deloria Tern",
+    subject: "Finance",
+    body: "Aliquam augue quam, sollicitudin vitae, consectetuer eget, commodo placerat.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Samaria+Zorzetti&rounded=true&background=random",
+    name: "Samaria Zorzetti",
+    subject: "Finance",
+    body: "Aenean auctor gravida sem.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Bradford+Hendrick&rounded=true&background=random",
+    name: "Bradford Hendrick",
+    subject: "Capital Goods",
+    body: "Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Timmie+Eacle&rounded=true&background=random",
+    name: "Timmie Eacle",
+    subject: "Health Care",
+    body: "Integer tincidunt ante vel ipsum.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Evered+Johantges&rounded=true&background=random",
+    name: "Evered Johantges",
+    subject: "n/a",
+    body: "Praesent lectus.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Dorthea+Gosz&rounded=true&background=random",
+    name: "Dorthea Gosz",
+    subject: "Finance",
+    body: "Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis olestie lorem.",
+  },
+  {
+    avatar:
+      "https://ui-avatars.com/api/?name=Ammamaria+Kelby&rounded=true&background=random",
+    name: "Ammamaria Kelby",
+    subject: "Technology",
+    body: "Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, turpis.",
+  },
+];
+
 function App() {
   return (
     <div id="layout" className="content pure-g">
