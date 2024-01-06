@@ -1,35 +1,35 @@
 import "./App.css";
 import Article from "./components/Article.tsx";
 
-export type Person = {
-  login: string;
-  avatar_url: string;
+export type Hero = {
+  twitter: string;
+  pic: string;
   name: null | string;
 };
 
-const people: Person[] = [
+const heroes: Hero[] = [
   {
-    login: "avcoder",
-    avatar_url: "https://avatars.githubusercontent.com/u/7874705?v=4",
-    name: "avcoder",
+    name: "Prof. Xavier",
+    twitter: "@profx",
+    pic: "http://www.animatedimages.org/data/media/450/animated-marvel-avatar-image-0004.gif",
   },
   {
-    login: "smccrindle",
-    avatar_url: "https://avatars.githubusercontent.com/u/1187460?v=4",
-    name: "Scott McCrindle",
+    name: "Spiderman",
+    twitter: "@spidey",
+    pic: "http://www.animatedimages.org/data/media/450/animated-marvel-avatar-image-0008.gif",
   },
   {
-    login: "ifotn",
-    avatar_url: "https://avatars.githubusercontent.com/u/6728111?v=4",
-    name: null,
+    name: "Wolverine",
+    pic: "http://www.animatedimages.org/data/media/450/animated-marvel-avatar-image-0011.gif",
+    twitter: "@logan",
   },
 ];
 
 function App() {
   return (
     <main className="mw6 center">
-      {people.map((person) => (
-        <Article person={person} />
+      {heroes.map((hero) => (
+        <Article person={hero} />
       ))}
     </main>
   );
