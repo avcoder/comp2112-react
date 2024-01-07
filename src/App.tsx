@@ -1,55 +1,71 @@
 import "./App.css";
+import { useState } from "react";
 import EmailItem from "./components/EmailItem.tsx";
+import EmailBody from "./components/EmailBody.tsx";
 
-export type Person = {
-  avatar: string;
+export type EmailData = {
   name: string;
   subject: string;
+  avatar: string;
   body: string;
+  isUnread: boolean;
+  isSelected: boolean;
 };
 
-const data: Person[] = [
+const data: EmailData[] = [
   {
     avatar:
       "https://ui-avatars.com/api/?name=Deloria+Tern&rounded=true&background=random",
     name: "Deloria Tern",
-    subject: "Finance",
+    subject: "Jobs",
     body: "Aliquam augue quam, sollicitudin vitae, consectetuer eget, commodo placerat.",
+    isUnread: false,
+    isSelected: true,
   },
   {
     avatar:
       "https://ui-avatars.com/api/?name=Samaria+Zorzetti&rounded=true&background=random",
     name: "Samaria Zorzetti",
-    subject: "Finance",
+    subject: "Tutoring",
     body: "Aenean auctor gravida sem.",
+    isUnread: true,
+    isSelected: false,
   },
   {
     avatar:
       "https://ui-avatars.com/api/?name=Bradford+Hendrick&rounded=true&background=random",
     name: "Bradford Hendrick",
-    subject: "Capital Goods",
+    subject: "Library Help",
     body: "Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
+    isUnread: false,
+    isSelected: false,
   },
   {
     avatar:
       "https://ui-avatars.com/api/?name=Timmie+Eacle&rounded=true&background=random",
     name: "Timmie Eacle",
-    subject: "Health Care",
+    subject: "Discounts",
     body: "Integer tincidunt ante vel ipsum.",
+    isUnread: false,
+    isSelected: false,
   },
   {
     avatar:
       "https://ui-avatars.com/api/?name=Evered+Johantges&rounded=true&background=random",
     name: "Evered Johantges",
-    subject: "",
+    subject: "Bun on the Run",
     body: "Praesent lectus.",
+    isUnread: false,
+    isSelected: false,
   },
   {
     avatar:
       "https://ui-avatars.com/api/?name=Dorthea+Gosz&rounded=true&background=random",
     name: "Dorthea Gosz",
-    subject: "Finance",
+    subject: "Parking",
     body: "Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis olestie lorem.",
+    isUnread: false,
+    isSelected: false,
   },
   {
     avatar:
@@ -57,14 +73,46 @@ const data: Person[] = [
     name: "Ammamaria Kelby",
     subject: "Technology",
     body: "Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, turpis.",
+    isUnread: false,
+    isSelected: false,
   },
 ];
 
-function handleCompose(e) {
-  console.log(e);
-}
-
 function App() {
+  const [emails, setEmails] = useState(data);
+  const [emailIndex, setEmailIndex] = useState(0);
+  const [inboxCount, setInboxCount] = useState(
+    emails.filter((email) => email.isUnread).length
+  );
+
+  function refreshEmails(index: number) {
+    const newEmails: EmailData[] = [
+      ...emails
+        .map((email) => ({ ...email, isSelected: false }))
+        .map((email, i) => {
+          if (index === i) return { ...email, isSelected: true };
+          return email;
+        }),
+    ];
+
+    setEmails(newEmails);
+  }
+
+  function handleComposeClick() {
+    console.log("in handleComposeClick");
+  }
+
+  function refreshInboxCount() {
+    setInboxCount(emails.filter((email) => email.isUnread)).length;
+  }
+
+  function handleEmailItemClick(e: React.MouseEvent<HTMLDivElement>) {
+    const index = Number(e.currentTarget.dataset.index);
+    setEmailIndex(index);
+    refreshEmails(index);
+    refreshInboxCount();
+  }
+
   return (
     <div id="layout" className="content pure-g">
       <div id="nav" className="pure-u">
@@ -75,7 +123,7 @@ function App() {
         <div className="nav-inner">
           <button
             className="primary-button pure-button"
-            onClick={handleCompose}
+            onClick={handleComposeClick}
           >
             Compose
           </button>
@@ -84,7 +132,10 @@ function App() {
             <ul className="pure-menu-list">
               <li className="pure-menu-item">
                 <a href="#" className="pure-menu-link">
-                  Inbox <span className="email-count">(2)</span>
+                  Inbox{" "}
+                  {inboxCount > 0 && (
+                    <span className="email-count">({inboxCount})</span>
+                  )}
                 </a>
               </li>
               <li className="pure-menu-item">
@@ -129,69 +180,27 @@ function App() {
       </div>
 
       <div id="list" className="pure-u-1">
-        {data.map((person) => (
+        {emails.map((email, i) => (
           <EmailItem
-            avatar={person.avatar}
-            name={person.name}
-            subject={person.subject}
-            body={person.body}
+            key={i}
+            id={i}
+            avatar={email.avatar}
+            name={email.name}
+            subject={email.subject}
+            body={email.body}
+            isUnread={email.isUnread}
+            isSelected={email.isSelected}
+            handleClick={handleEmailItemClick}
           />
         ))}
       </div>
 
       <div id="main" className="pure-u-1">
-        <div className="email-content">
-          <div className="email-content-header pure-g">
-            <div className="pure-u-1-2">
-              <h1 className="email-content-title">Hello from Toronto</h1>
-              <p className="email-content-subtitle">
-                From <a>Tilo Mitra</a> at <span>3:56pm, April 3, 2012</span>
-              </p>
-            </div>
-
-            <div className="email-content-controls pure-u-1-2">
-              <button className="secondary-button pure-button">Reply</button>
-              <button className="secondary-button pure-button">Forward</button>
-              <button className="secondary-button pure-button">Move to</button>
-            </div>
-          </div>
-
-          <div className="email-content-body">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <p>
-              Duis aute irure dolor in reprehenderit in voluptate velit
-              essecillum dolore eu fugiat nulla pariatur. Excepteur sint
-              occaecat cupidatat non proident, sunt in culpa qui officia
-              deserunt mollit anim id est laborum.
-            </p>
-            <p>
-              Aliquam ac feugiat dolor. Proin mattis massa sit amet enim iaculis
-              tincidunt. Mauris tempor mi vitae sem aliquet pharetra. Fusce in
-              dui purus, nec malesuada mauris. Curabitur ornare arcu quis mi
-              blandit laoreet. Vivamus imperdiet fermentum mauris, ac posuere
-              urna tempor at. Duis pellentesque justo ac sapien aliquet egestas.
-              Morbi enim mi, porta eget ullamcorper at, pharetra id lorem.
-            </p>
-            <p>
-              Donec sagittis dolor ut quam pharetra pretium varius in nibh.
-              Suspendisse potenti. Donec imperdiet, velit vel adipiscing
-              bibendum, leo eros tristique augue, eu rutrum lacus sapien vel
-              quam. Nam orci arcu, luctus quis vestibulum ut, ullamcorper ut
-              enim. Morbi semper erat quis orci aliquet condimentum. Nam
-              interdum mauris sed massa dignissim rhoncus.
-            </p>
-            <p>
-              Regards,
-              <br />
-              Tilo
-            </p>
-          </div>
-        </div>
+        <EmailBody
+          title={emails[emailIndex]?.subject}
+          name={emails[emailIndex]?.name}
+          body={emails[emailIndex]?.body}
+        />
       </div>
     </div>
   );

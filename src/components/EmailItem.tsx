@@ -1,9 +1,22 @@
-import { Person } from "../App.tsx";
+import classNames from "classnames";
+import { EmailData } from "../App.tsx";
 
-const EmailItem: React.FC<Person> = ({ name, subject, avatar, body }) => {
+export type EmailItemProps = EmailData & {
+  id: number;
+  handleClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+};
+
+const EmailItem: React.FC<EmailItemProps> = (emailItemProps) => {
   // OR function EmailItem({ name, subject, avatar, body}: Person) {
+  const { name, subject, body, avatar, isUnread, handleClick, id, isSelected } =
+    emailItemProps;
+  const classes = classNames("email-item pure-g", {
+    "email-item-unread": isUnread,
+    "email-item-selected": isSelected,
+  });
+
   return (
-    <div className="email-item pure-g">
+    <div className={classes} onClick={handleClick} data-index={id}>
       <div className="pure-u">
         <img
           width="64"
