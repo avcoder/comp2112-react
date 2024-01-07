@@ -102,7 +102,7 @@ function App() {
   useEffect(() => {
     const newInboxCount = emails.filter((email) => email.isUnread).length;
     setInboxCount(newInboxCount);
-  }, [emailIndex, emails]);
+  }, [emails]);
 
   function handleEmailItemClick(e: React.MouseEvent<HTMLDivElement>) {
     const index = Number(e.currentTarget.dataset.index);
