@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import EmailItem from "./components/EmailItem.tsx";
 import EmailBody from "./components/EmailBody.tsx";
 
@@ -77,6 +77,8 @@ const data: EmailData[] = [
     isSelected: false,
   },
 ];
+
+export const EmailContext = createContext({});
 
 function App() {
   const [emails, setEmails] = useState(data);
@@ -193,13 +195,11 @@ function App() {
         ))}
       </div>
 
-      <div id="main" className="pure-u-1">
-        <EmailBody
-          title={emails[emailIndex]?.subject}
-          name={emails[emailIndex]?.name}
-          body={emails[emailIndex]?.body}
-        />
-      </div>
+      <EmailContext.Provider value={emails[emailIndex]}>
+        <div id="main" className="pure-u-1">
+          <EmailBody />
+        </div>
+      </EmailContext.Provider>
     </div>
   );
 }
