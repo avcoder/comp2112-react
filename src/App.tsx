@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EmailItem from "./components/EmailItem.tsx";
 import EmailBody from "./components/EmailBody.tsx";
 
@@ -85,33 +85,28 @@ function App() {
     emails.filter((email) => email.isUnread).length
   );
 
-  function refreshEmails(index: number) {
-    const newEmails: EmailData[] = [
-      ...emails
-        .map((email) => ({ ...email, isSelected: false }))
-        .map((email, i) => {
-          if (index === i)
-            return { ...email, isSelected: true, isUnread: false };
-          return email;
-        }),
-    ];
+  useEffect(() => {
+    const refreshEmails = () => {
+      setEmails((prevEmails) =>
+        prevEmails.map((email, i) => ({
+          ...email,
+          isSelected: emailIndex === i,
+          isUnread: emailIndex === i ? false : email.isUnread,
+        }))
+      );
+    };
 
-    setEmails(newEmails);
-  }
+    refreshEmails();
+  }, [emailIndex]);
 
-  function handleComposeClick() {
-    console.log("in handleComposeClick");
-  }
-
-  function refreshInboxCount() {
-    setInboxCount(emails.filter((email) => email.isUnread).length);
-  }
+  useEffect(() => {
+    const newInboxCount = emails.filter((email) => email.isUnread).length;
+    setInboxCount(newInboxCount);
+  }, [emailIndex, emails]);
 
   function handleEmailItemClick(e: React.MouseEvent<HTMLDivElement>) {
     const index = Number(e.currentTarget.dataset.index);
     setEmailIndex(index);
-    refreshEmails(index);
-    refreshInboxCount();
   }
 
   return (
@@ -124,7 +119,9 @@ function App() {
         <div className="nav-inner">
           <button
             className="primary-button pure-button"
-            onClick={handleComposeClick}
+            onClick={() => {
+              /* */
+            }}
           >
             Compose
           </button>
