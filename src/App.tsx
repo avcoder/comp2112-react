@@ -103,7 +103,7 @@ function App() {
   }
 
   function refreshInboxCount() {
-    setInboxCount(emails.filter((email) => email.isUnread)).length;
+    setInboxCount(emails.filter((email) => email.isUnread).length);
   }
 
   function handleEmailItemClick(e: React.MouseEvent<HTMLDivElement>) {
