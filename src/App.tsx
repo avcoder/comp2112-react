@@ -90,7 +90,8 @@ function App() {
       ...emails
         .map((email) => ({ ...email, isSelected: false }))
         .map((email, i) => {
-          if (index === i) return { ...email, isSelected: true };
+          if (index === i)
+            return { ...email, isSelected: true, isUnread: false };
           return email;
         }),
     ];
